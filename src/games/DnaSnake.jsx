@@ -14,10 +14,8 @@ const DIRS = {
   right: [0, 1],
 }
 const OPPOSITE = { up: 'down', down: 'up', left: 'right', right: 'left' }
-const FOODS = ['💊', '💊', '💊', '💉', '🧪'] // mostly pills
-const BONUS = { emoji: '🧬', pts: 30, life: 6 }
-// Base-pair colors so the strand reads as a double helix
-const STRAND_COLORS = ['#22e5ff', '#ff2fb9', '#4dff5e', '#ffe94a']
+const FOODS = ['💊'] // pills on the board...
+const BONUS = { emoji: '💉', pts: 30, life: 6 } // ...and a timed syringe bonus
 
 export default function DnaSnake({ onExit }) {
   const game = GAME_META['dna']
@@ -170,7 +168,7 @@ export default function DnaSnake({ onExit }) {
                       'repeating-linear-gradient(0deg, rgba(77,255,94,0.04) 0 2px, transparent 2px 40px), repeating-linear-gradient(90deg, rgba(77,255,94,0.04) 0 2px, transparent 2px 40px), #0a0320',
                   }}
                 >
-                  {/* Body segments — alternating base-pair colors */}
+                  {/* Body segments — clean white strand */}
                   {w.snake.map((s, i) =>
                     i === 0 ? null : (
                       <div
@@ -183,9 +181,9 @@ export default function DnaSnake({ onExit }) {
                           width: `${72 / COLS}%`,
                           aspectRatio: '1',
                           borderRadius: '40%',
-                          background: STRAND_COLORS[i % STRAND_COLORS.length],
-                          boxShadow: `0 0 8px ${STRAND_COLORS[i % STRAND_COLORS.length]}`,
-                          opacity: 0.9,
+                          background: '#f4f6ff',
+                          boxShadow: '0 0 6px rgba(255,255,255,0.55)',
+                          opacity: 0.95,
                         }}
                       />
                     ),
@@ -239,7 +237,7 @@ export default function DnaSnake({ onExit }) {
                 </div>
                 <DPad onDir={turn} />
                 <div style={{ position: 'absolute', bottom: 4, width: '100%', textAlign: 'center', color: '#6f5fb0', fontSize: 16 }}>
-                  arrows/WASD steer · eat 💊 to grow · 🧬 = +30 before it fades
+                  arrows/WASD steer · eat 💊 to grow · 💉 = +30 before it fades
                 </div>
               </>
             )}

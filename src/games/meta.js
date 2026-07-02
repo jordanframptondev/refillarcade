@@ -4,7 +4,7 @@ export const GAME_LIST = [
   {
     id: 'age-invaders',
     title: 'AGE INVADERS',
-    emoji: '⏳',
+    emoji: '👾',
     color: '#a45bff',
     tagline: 'The signs of aging descend relentlessly — fight back!',
     howTo: 'Fine lines 〰️, wrinkles ➿, sun spots 🟤, and sagging 🫠 march down in waves — ← → to move (or drag), SPACE / tap to fire your treatment. Catch falling peptides (🧪 NAD+, ✨ GLOW, 🫧 GLUTATHIONE for the sun spots...) but DODGE the agers ☀️🍩😰📱. Shoot ⏳ Father Time for +150. Every wave is a new decade!',
@@ -12,18 +12,18 @@ export const GAME_LIST = [
   {
     id: 'dig-dose',
     title: 'DIG DOSE',
-    emoji: '⛏️',
+    emoji: '💉',
     color: '#ff8a3d',
     tagline: 'Tunnel through tissue, zap the bad cells!',
     howTo: 'You\'re a healing peptide 🧬. Arrows/WASD (or the pad) to tunnel through tissue, SPACE (or ⚡) to zap bad cells ☣️ down your tunnel. Clear them all to level up — don\'t let them touch you!',
   },
   {
     id: 'dna',
-    title: 'DNA',
+    title: 'CLEAN DNA',
     emoji: '🧬',
     color: '#4dff5e',
     tagline: 'Grow the strand, gobble the pills!',
-    howTo: 'Steer the DNA strand with arrows/WASD (or the pad). Eat pills 💊 to grow and speed up, grab the flashing 🧬 for +30 before it fades. Hit a wall or yourself and the strand unravels!',
+    howTo: 'Steer the DNA strand with arrows/WASD (or the pad). Eat pills 💊 to grow and speed up, grab the flashing 💉 for +30 before it fades. Hit a wall or yourself and the strand unravels!',
   },
   {
     id: 'glow-up',
@@ -36,7 +36,7 @@ export const GAME_LIST = [
   {
     id: 'peptide-panic',
     title: 'PEPTIDE PANIC',
-    emoji: '💉',
+    emoji: '😮',
     color: '#ff2fb9',
     tagline: 'Catch the good vials, dodge the sketchy stuff!',
     howTo: 'Move the hungry mouth 😮 with ← → arrows (or drag on mobile). Gobble vials 💉🧪💊 for points and build combos — but swallow a counterfeit ☠️ or the DEA barrel 🛢️ and lose a life. 3 lives!',
@@ -68,7 +68,7 @@ export const GAME_LIST = [
   {
     id: 'symptom-smack',
     title: 'SYMPTOM SMACK',
-    emoji: '🔨',
+    emoji: '🖐️',
     color: '#ff8a3d',
     tagline: 'Whack the symptoms as they pop up!',
     howTo: 'Symptoms pop out of the holes — smack them with a click/tap before they hide! Don\'t smack the happy patients 😊. 45 seconds on the clock!',
