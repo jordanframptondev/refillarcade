@@ -52,9 +52,7 @@ function Lobby({ onSelect }) {
 
   return (
     <div className="lobby">
-      <div style={{ fontSize: 54, filter: 'drop-shadow(0 0 14px #ff2fb9)' }}>💉🕹️✨</div>
       <h1 className="neon-title lobby-title">REFILL ARCADE</h1>
-      <div className="lobby-sub">The MedSpa Midway — step right up!</div>
       <div className="insert-coin">▸ INSERT COIN — PICK A CABINET ◂</div>
       <div className="cabinet-grid">
         {GAMES.map((g) => {
