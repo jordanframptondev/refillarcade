@@ -6,9 +6,12 @@ import { sfx } from '../lib/sounds.js'
 
 const PLAYER_X = 22 // fixed x position (%)
 const BOOSTS = [
-  { emoji: '💪', points: 15, text: '+15 GAINS' },
-  { emoji: '⚡', points: 10, text: '+10 ENERGY' },
-  { emoji: '🧬', points: 25, text: '+25 RECOVERY' },
+  { emoji: '💊', points: 10, text: '+10 PILLS' },
+  { emoji: '🥗', points: 10, text: '+10 SALAD' },
+  { emoji: '💉', points: 15, text: '+15 SYRINGE' },
+  { emoji: '🥤', points: 15, text: '+15 PROTEIN' },
+  { emoji: '🧴', points: 20, text: '+20 PILL BOTTLE' },
+  { emoji: '🧬', points: 25, text: '+25 PEPTIDE' },
 ]
 
 export default function GainsRun({ onExit }) {
@@ -64,7 +67,7 @@ export default function GainsRun({ onExit }) {
     w.vy += 130 * dt // gravity
     w.y += w.vy * dt
 
-    // Spawn obstacle pairs (paperwork stacks) with a gap
+    // Spawn wall pairs with a gap
     w.spawnIn -= dt
     if (w.spawnIn <= 0) {
       w.spawnIn = Math.max(1.15, 1.9 - w.elapsed / 60)
@@ -106,13 +109,13 @@ export default function GainsRun({ onExit }) {
 
     w.pops = w.pops.filter((p) => (p.ttl -= dt) > 0)
 
-    // Collisions: floor/ceiling or paperwork stacks
-    const hitWall = w.y < 3 || w.y > 95
-    const hitStack = w.obstacles.some(
+    // Collisions: floor/ceiling or walls
+    const hitEdge = w.y < 3 || w.y > 95
+    const hitWall = w.obstacles.some(
       (o) => Math.abs(o.x - PLAYER_X) < 6 && (w.y < o.gapY + 3 || w.y > o.gapY + o.gapH - 3),
     )
     setScore(w.score)
-    if (hitWall || hitStack) {
+    if (hitEdge || hitWall) {
       const final = w.score
       world.current = null
       setAlive(false)
@@ -155,7 +158,7 @@ export default function GainsRun({ onExit }) {
                 >
                   🏃
                 </span>
-                {/* Obstacles: paperwork stacks top + bottom */}
+                {/* Obstacles: plain neon walls top + bottom */}
                 {w.obstacles.map((o) => (
                   <div key={o.id}>
                     <div
@@ -166,19 +169,13 @@ export default function GainsRun({ onExit }) {
                         height: `${o.gapY}%`,
                         width: '9%',
                         transform: 'translateX(-50%)',
-                        background: 'linear-gradient(180deg, #3a2470, #241354)',
+                        background: 'repeating-linear-gradient(0deg, #3a2470 0 14px, #2b185c 14px 28px)',
                         border: '2px solid #a45bff',
                         borderTop: 'none',
                         borderRadius: '0 0 8px 8px',
                         boxShadow: '0 0 12px rgba(164,91,255,0.6)',
-                        display: 'flex',
-                        alignItems: 'flex-end',
-                        justifyContent: 'center',
-                        fontSize: 24,
                       }}
-                    >
-                      📚
-                    </div>
+                    />
                     <div
                       style={{
                         position: 'absolute',
@@ -187,19 +184,13 @@ export default function GainsRun({ onExit }) {
                         bottom: 0,
                         width: '9%',
                         transform: 'translateX(-50%)',
-                        background: 'linear-gradient(0deg, #3a2470, #241354)',
+                        background: 'repeating-linear-gradient(0deg, #3a2470 0 14px, #2b185c 14px 28px)',
                         border: '2px solid #a45bff',
                         borderBottom: 'none',
                         borderRadius: '8px 8px 0 0',
                         boxShadow: '0 0 12px rgba(164,91,255,0.6)',
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        justifyContent: 'center',
-                        fontSize: 24,
                       }}
-                    >
-                      🗃️
-                    </div>
+                    />
                   </div>
                 ))}
                 {/* Boosts */}
@@ -225,7 +216,7 @@ export default function GainsRun({ onExit }) {
                   </span>
                 ))}
                 <div style={{ position: 'absolute', bottom: 4, width: '100%', textAlign: 'center', color: '#6f5fb0', fontSize: 16 }}>
-                  SPACE / tap to flap · grab 💪⚡🧬 · dodge the paperwork
+                  SPACE / tap to flap · grab 💊🥗💉🥤🧴🧬 · dodge the walls
                 </div>
               </>
             )}
