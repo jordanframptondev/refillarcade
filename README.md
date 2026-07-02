@@ -7,10 +7,13 @@ flashy midway — cartoon vials only, no real dosing advice.
 
 ```bash
 npm install
-npm run dev
+npm run dev   # starts the Vite app (5173) + score API (5174) together
 ```
 
 Then open http://localhost:5173.
+
+For production: `npm run build && npm start` — the score server also serves the
+built app from `dist/` on port 5174.
 
 ## The cabinets
 
@@ -27,20 +30,26 @@ Then open http://localhost:5173.
 
 ## Notes
 
-- High scores persist per game in `localStorage` — no accounts, no backend.
+- High scores are stored by a tiny Express API (`server/index.js`) as one JSON
+  file per game in `server/data/` — no database needed. Crack the top 10 and
+  the game asks for your name (20 chars max); every game has a 🏆 HIGH SCORES
+  button showing its top 10.
 - Sound effects are synthesized with WebAudio (mute toggle top-right).
 - Press `ESC` in any game to return to the arcade lobby.
 
 ## Structure
 
 ```
+server/index.js           Express score API + static host for dist/
+server/data/              runtime score files, one JSON per game (gitignored)
+shared/config.js          constants shared by app + server (name length, top N)
 src/
   App.jsx                 lobby, marquee, floating characters, game switch
-  components/GameShell.jsx shared HUD + start/game-over overlays
+  components/GameShell.jsx shared HUD, overlays, name entry, leaderboard
   games/meta.js           game metadata (titles, colors, instructions)
   games/index.js          registry wiring metadata to components
   games/*.jsx             one self-contained file per game
-  lib/scores.js           localStorage high scores
+  lib/scores.js           score API client
   lib/sounds.js           WebAudio synth sfx
   lib/useGameLoop.js      requestAnimationFrame hook
 ```

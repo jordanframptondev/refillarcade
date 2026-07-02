@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GAMES } from './games/index.js'
-import { getHighScore } from './lib/scores.js'
+import { fetchAllScores } from './lib/scores.js'
 import { sfx, isMuted, toggleMute } from './lib/sounds.js'
 
 const FLOATERS = ['💉', '🧪', '💊', '🧬', '⚗️', '🩹', '✨', '👾', '🕹️', '💪']
@@ -38,6 +38,18 @@ function Marquee() {
 }
 
 function Lobby({ onSelect }) {
+  // Champion per game, fetched from the score server
+  const [bests, setBests] = useState({})
+  useEffect(() => {
+    fetchAllScores()
+      .then((all) => {
+        const map = {}
+        for (const id of Object.keys(all)) map[id] = all[id][0] || null
+        setBests(map)
+      })
+      .catch(() => {}) // server offline — cabinets just show no score
+  }, [])
+
   return (
     <div className="lobby">
       <div style={{ fontSize: 54, filter: 'drop-shadow(0 0 14px #ff2fb9)' }}>💉🕹️✨</div>
@@ -46,7 +58,7 @@ function Lobby({ onSelect }) {
       <div className="insert-coin">▸ INSERT COIN — PICK A CABINET ◂</div>
       <div className="cabinet-grid">
         {GAMES.map((g) => {
-          const best = getHighScore(g.id)
+          const best = bests[g.id]
           return (
             <button
               key={g.id}
@@ -60,7 +72,9 @@ function Lobby({ onSelect }) {
               <div className="cabinet-marquee">{g.title}</div>
               <div className="cabinet-screen">{g.emoji}</div>
               <div className="cabinet-tagline">{g.tagline}</div>
-              <div className="cabinet-best">{best > 0 ? `★ BEST: ${best}` : '☆ NO SCORE YET'}</div>
+              <div className="cabinet-best">
+                {best ? `★ ${best.score} · ${best.name}` : '☆ NO SCORE YET'}
+              </div>
               <div className="cabinet-play">▶ PLAY</div>
             </button>
           )

@@ -338,6 +338,64 @@ button { font-family: inherit; cursor: pointer; }
   animation: floatAround var(--dur, 12s) ease-in-out infinite;
 }
 
+/* ---------- Leaderboard + name entry ---------- */
+
+.name-input {
+  font-family: var(--font-arcade);
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  width: min(320px, 80vw);
+  padding: 12px 14px;
+  color: var(--neon-yellow);
+  background: rgba(0, 0, 0, 0.55);
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(34, 229, 255, 0.4), inset 0 0 10px rgba(0, 0, 0, 0.7);
+  outline: none;
+  caret-color: var(--neon-pink);
+}
+
+.name-input:focus { border-color: var(--neon-pink); box-shadow: 0 0 16px rgba(255, 47, 185, 0.6); }
+.name-input::placeholder { color: #6f5fb0; }
+
+.lb-list {
+  width: min(440px, 92%);
+  max-height: 52%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  font-family: var(--font-arcade);
+  font-size: 12px;
+  border: 2px solid rgba(164, 91, 255, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lb-row.lb-top {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 12px rgba(255, 233, 74, 0.5);
+}
+
+.lb-rank { width: 34px; text-align: left; color: var(--neon-cyan); }
+.lb-name {
+  flex: 1;
+  text-align: left;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lb-score { color: var(--neon-green); text-shadow: 0 0 8px rgba(77, 255, 94, 0.7); }
+
 /* Score popups inside games */
 .score-pop {
   position: absolute;

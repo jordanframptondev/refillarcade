@@ -4,3 +4,6 @@ dist
 *.local
 
 .idea
+
+# runtime score data (one JSON file per game)
+server/data/
