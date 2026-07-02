@@ -24,7 +24,6 @@ export default function PerfectDose({ onExit }) {
   const reset = () => {
     world.current = {
       pos: 0,
-      dir: 1,
       speed: 55,
       window: newWindow(1),
       round: 1,
@@ -39,12 +38,38 @@ export default function PerfectDose({ onExit }) {
     bump((n) => n + 1) // guarantee a re-render so the loop starts
   }
 
+  // After a hit or miss, pause briefly, then next sweep (or game over).
+  const scheduleNext = (w) => {
+    setTimeout(() => {
+      if (!world.current) return
+      if (w.misses >= 3) {
+        const final = w.score
+        world.current = null
+        endRef.current(final)
+        return
+      }
+      w.window = newWindow(w.round)
+      w.speed = 55 + w.round * 7
+      w.pos = 0
+      w.locked = false
+      setResult(null)
+    }, 750)
+  }
+
   useGameLoop(!!world.current && misses < 3, (dt) => {
     const w = world.current
     if (!w || w.locked) return
-    w.pos += w.dir * w.speed * dt
-    if (w.pos >= 100) { w.pos = 100; w.dir = -1 }
-    if (w.pos <= 0) { w.pos = 0; w.dir = 1 }
+    w.pos += w.speed * dt
+    if (w.pos >= 100) {
+      // One sweep only — letting the needle reach the end is a miss.
+      w.pos = 100
+      w.locked = true
+      w.misses += 1
+      setMisses(w.misses)
+      setResult({ text: '⏰ TOO SLOW!', color: '#ff3355' })
+      sfx.bad()
+      scheduleNext(w)
+    }
     setNeedle(w.pos)
   })
 
@@ -74,23 +99,7 @@ export default function PerfectDose({ onExit }) {
     setScore(w.score)
     setRound(w.round)
     setMisses(w.misses)
-
-    setTimeout(() => {
-      if (!world.current) return
-      if (w.misses >= 3) {
-        const final = w.score
-        world.current = null
-        endRef.current(final)
-        return
-      }
-      // Next round: new window, faster sweep
-      w.window = newWindow(w.round)
-      w.speed = 55 + w.round * 7
-      w.pos = 0
-      w.dir = 1
-      w.locked = false
-      setResult(null)
-    }, 750)
+    scheduleNext(w)
   }
 
   useEffect(() => {
@@ -201,7 +210,7 @@ export default function PerfectDose({ onExit }) {
                   )}
                 </div>
                 <div style={{ color: '#6f5fb0', fontSize: 16 }}>
-                  Land in the green therapeutic window · center line = PERFECT
+                  One sweep only — stop it in the green window before it reaches the end · center line = PERFECT
                 </div>
               </>
             )}

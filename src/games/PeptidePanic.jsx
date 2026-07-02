@@ -41,6 +41,8 @@ export default function PeptidePanic({ onExit }) {
       score: 0,
       combo: 0,
       shake: false,
+      face: null, // temporary reaction emoji after a catch
+      faceTtl: 0,
     }
     setScore(0)
     setLives(3)
@@ -90,11 +92,15 @@ export default function PeptidePanic({ onExit }) {
           const pts = it.points * mult
           w.score += pts
           w.pops.push({ id: w.nextId++, x: it.x, y: trayTop - 6, text: `+${pts}${mult > 1 ? ` x${mult}` : ''}`, color: '#4dff5e' })
+          w.face = '😋'
+          w.faceTtl = 0.45
           sfx.good()
         } else {
           w.lives -= 1
           w.combo = 0
           w.pops.push({ id: w.nextId++, x: it.x, y: trayTop - 6, text: it.label, color: '#ff3355' })
+          w.face = '🤢'
+          w.faceTtl = 0.6
           w.shake = true
           setTimeout(() => { if (world.current) world.current.shake = false }, 400)
           sfx.bad()
@@ -114,6 +120,12 @@ export default function PeptidePanic({ onExit }) {
       p.ttl = (p.ttl ?? 0.8) - dt
       return p.ttl > 0
     })
+
+    // Reaction face fades back to the open mouth
+    if (w.faceTtl > 0) {
+      w.faceTtl -= dt
+      if (w.faceTtl <= 0) w.face = null
+    }
 
     setScore(w.score)
     setCombo(w.combo)
@@ -196,23 +208,24 @@ export default function PeptidePanic({ onExit }) {
                     {p.text}
                   </span>
                 ))}
-                {/* Tray */}
+                {/* Catcher — a hungry open mouth (goes star-eyed on big combos) */}
                 <div
                   style={{
                     position: 'absolute',
                     left: `${w.trayX}%`,
                     top: '88%',
-                    transform: 'translate(-50%, -50%)',
+                    transform: `translate(-50%, -50%) scale(${w.face ? 1.2 : 1})`,
                     width: `${TRAY_W}%`,
                     textAlign: 'center',
-                    fontSize: 40,
-                    filter: 'drop-shadow(0 0 12px #22e5ff)',
+                    fontSize: 44,
+                    filter: w.face === '🤢' ? 'drop-shadow(0 0 14px #ff3355)' : 'drop-shadow(0 0 12px #ff2fb9)',
+                    transition: 'transform 0.12s',
                   }}
                 >
-                  🛒
+                  {w.face || (w.combo >= 10 ? '🤩' : '😮')}
                 </div>
                 <div style={{ position: 'absolute', bottom: 4, width: '100%', textAlign: 'center', color: '#6f5fb0', fontSize: 16 }}>
-                  ← → move · catch 💊💉🧪🧬 · dodge ☠️🛢️
+                  ← → move · feed the mouth 💊💉🧪🧬 · dodge ☠️🛢️
                 </div>
               </>
             )}

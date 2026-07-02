@@ -7,7 +7,7 @@ export const GAME_LIST = [
     emoji: '💉',
     color: '#ff2fb9',
     tagline: 'Catch the good vials, dodge the sketchy stuff!',
-    howTo: 'Move the tray with ← → arrows (or drag on mobile). Catch vials 💉🧪💊 for points, build combos — but catch a counterfeit ☠️ or the DEA barrel 🛢️ and lose a life. 3 lives!',
+    howTo: 'Move the hungry mouth 😮 with ← → arrows (or drag on mobile). Gobble vials 💉🧪💊 for points and build combos — but swallow a counterfeit ☠️ or the DEA barrel 🛢️ and lose a life. 3 lives!',
   },
   {
     id: 'gains-run',
@@ -31,7 +31,7 @@ export const GAME_LIST = [
     emoji: '🎯',
     color: '#ffe94a',
     tagline: 'Stop the needle in the therapeutic window!',
-    howTo: 'The needle sweeps back and forth — press SPACE / tap to stop it inside the green therapeutic window. Dead center = PERFECT. The window shrinks every round. Miss 3 times and you\'re done!',
+    howTo: 'The needle sweeps across ONCE — press SPACE / tap to stop it inside the green therapeutic window before it reaches the end. Dead center = PERFECT. The window shrinks every round. 3 misses and you\'re done!',
   },
   {
     id: 'symptom-smack',
