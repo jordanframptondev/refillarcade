@@ -12,8 +12,31 @@ npm run dev   # starts the Vite app (5173) + score API (5174) together
 
 Then open http://localhost:5173.
 
-For production: `npm run build && npm start` — the score server also serves the
-built app from `dist/` on port 5174.
+Locally the leaderboard is served by the file-based Express server in
+`server/index.js` (scores land in `server/data/`). In production on Vercel the
+same API is served by serverless functions backed by Redis — see below.
+
+## Deploy to Vercel
+
+The game is a static Vite bundle; the leaderboard needs a backend, so scores
+live in serverless functions under `api/` backed by **Upstash Redis** (a sorted
+set per game — atomic and safe under concurrent submissions). The browser calls
+the same relative `/api/scores` URLs in every environment, so no client code
+changes between local and prod.
+
+1. Import the repo into Vercel (it auto-detects Vite → build `vite build`,
+   output `dist`, and turns `api/` into functions — no `vercel.json` needed).
+2. In the project's **Storage** tab, add **Upstash Redis** from the Marketplace
+   and connect it to the project. This injects `KV_REST_API_URL` and
+   `KV_REST_API_TOKEN` automatically — don't set them by hand.
+3. Redeploy so the functions pick up the env vars. Done — scores persist.
+
+> A static-only deploy (no functions, or Redis not connected) is exactly what
+> makes the app report "score server offline": there's no backend answering
+> `/api`. The client now retries every 5s, so once Redis is connected and you
+> redeploy, open boards recover on their own.
+
+`npm test` runs the leaderboard store's logic against an in-memory Redis fake.
 
 ## The cabinets
 
@@ -36,26 +59,32 @@ built app from `dist/` on port 5174.
 
 ## Notes
 
-- High scores are stored by a tiny Express API (`server/index.js`) as one JSON
-  file per game in `server/data/` — no database needed. Crack the top 10 and
-  the game asks for your name (20 chars max); every game has a 🏆 HIGH SCORES
-  button showing its top 10.
+- Crack the top 10 and the game asks for your name (20 chars max); every game
+  has a 🏆 HIGH SCORES button showing its top 10. Locally these persist to JSON
+  files in `server/data/`; in production to Upstash Redis. Name/score
+  validation is shared between both backends (`shared/leaderboard.js`), so the
+  rules are identical either way.
 - Sound effects are synthesized with WebAudio (mute toggle top-right).
 - Press `ESC` in any game to return to the arcade lobby.
 
 ## Structure
 
 ```
-server/index.js           Express score API + static host for dist/
-server/data/              runtime score files, one JSON per game (gitignored)
+api/scores/index.js       Vercel function: GET all games' top-10 (Redis)
+api/scores/[gameId].js    Vercel function: GET one board / POST a score (Redis)
+server/index.js           local Express API + static host for dist/ (file store)
+server/redisStore.js      Redis-backed leaderboard used by the Vercel functions
+server/redisStore.test.js in-memory test for the store logic (npm test)
+server/data/              local score files, one JSON per game (gitignored)
 shared/config.js          constants shared by app + server (name length, top N)
+shared/leaderboard.js     shared validation + limits (both backends use these)
 src/
   App.jsx                 lobby, marquee, floating characters, game switch
   components/GameShell.jsx shared HUD, overlays, name entry, leaderboard
   games/meta.js           game metadata (titles, colors, instructions)
   games/index.js          registry wiring metadata to components
   games/*.jsx             one self-contained file per game
-  lib/scores.js           score API client
+  lib/scores.js           score API client (relative /api URLs)
   lib/sounds.js           WebAudio synth sfx
   lib/useGameLoop.js      requestAnimationFrame hook
 ```

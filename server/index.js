@@ -4,18 +4,16 @@ import express from 'express'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { MAX_NAME_LEN, TOP_N } from '../shared/config.js'
+import { TOP_N } from '../shared/config.js'
+import { MAX_STORED, isValidGameId, sanitizeName, parseScore } from '../shared/leaderboard.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = path.join(__dirname, 'data')
 const DIST_DIR = path.join(__dirname, '..', 'dist')
 const PORT = process.env.PORT || 5174
-const MAX_STORED = 100 // keep more than we show so ranks stay stable
 
 fs.mkdirSync(DATA_DIR, { recursive: true })
 
-// Game ids are simple slugs; rejecting anything else also blocks path traversal.
-const validId = (id) => /^[a-z0-9-]{1,32}$/.test(id)
 const fileFor = (id) => path.join(DATA_DIR, `${id}.json`)
 
 function readScores(id) {
@@ -36,34 +34,27 @@ app.get('/api/scores', (_req, res) => {
   for (const f of fs.readdirSync(DATA_DIR)) {
     if (!f.endsWith('.json')) continue
     const id = f.slice(0, -'.json'.length)
-    if (validId(id)) out[id] = readScores(id).slice(0, TOP_N)
+    if (isValidGameId(id)) out[id] = readScores(id).slice(0, TOP_N)
   }
   res.json(out)
 })
 
 app.get('/api/scores/:gameId', (req, res) => {
   const { gameId } = req.params
-  if (!validId(gameId)) return res.status(400).json({ error: 'bad game id' })
+  if (!isValidGameId(gameId)) return res.status(400).json({ error: 'bad game id' })
   res.json(readScores(gameId).slice(0, TOP_N))
 })
 
 // Submit a score: { name, score } → { scores: top10, rank: 1-based or null }
 app.post('/api/scores/:gameId', (req, res) => {
   const { gameId } = req.params
-  if (!validId(gameId)) return res.status(400).json({ error: 'bad game id' })
+  if (!isValidGameId(gameId)) return res.status(400).json({ error: 'bad game id' })
 
-  const name = String(req.body?.name ?? '')
-    .replace(/[^\x20-\x7E]/g, '') // printable ASCII only
-    .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, MAX_NAME_LEN)
-    .trim() // clamping can leave a trailing space
-  const score = Math.floor(Number(req.body?.score))
+  const name = sanitizeName(req.body?.name)
+  const score = parseScore(req.body?.score)
 
   if (!name) return res.status(400).json({ error: 'name required' })
-  if (!Number.isFinite(score) || score < 0 || score > 1_000_000) {
-    return res.status(400).json({ error: 'bad score' })
-  }
+  if (score === null) return res.status(400).json({ error: 'bad score' })
 
   const scores = readScores(gameId)
   const entry = { name, score, at: new Date().toISOString() }

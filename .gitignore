@@ -5,5 +5,13 @@ dist
 
 .idea
 
+# local env files (Vercel injects prod vars from its dashboard)
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel
+
 # runtime score data (one JSON file per game)
 server/data/
