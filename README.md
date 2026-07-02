@@ -19,11 +19,17 @@ built app from `dist/` on port 5174.
 
 | Game | Mechanic | Controls |
 | --- | --- | --- |
-| 💉 Peptide Panic | Catch good vials, dodge counterfeits & DEA barrels | ← → or drag |
+| 👾 Age Invaders | Space Invaders vs the signs of aging, with peptide power-ups | ← → + Space / drag + tap |
+| 🧱 Plaque Breaker | Breakout against the plaque wall, power-ups drop from bricks | Drag or ← → |
+| 🏗️ Vial Stacker | One-button tower stacker — overhang gets sliced | Space / tap |
+| 🚶 Clinic Crossing | Frogger across UV, sugar, and paperwork lanes | Arrows / D-pad |
+| 🧬 Clean DNA | Snake — grow the strand on pills and syringes | Arrows / D-pad |
+| ✨ Glow Up | Doodle-jump up pill platforms with spa springs | ← → or drag |
+| 😮 Peptide Panic | Catch good vials, dodge counterfeits & DEA barrels | ← → or drag |
 | 🏃 Gains Run | One-button flappy runner down the clinic hallway | Space / tap |
 | 📋 Script Sorter | Sort scripts into PEPTIDE / TRT / HRT / REJECT bins | 1-4 or tap |
 | 🎯 Perfect Dose | Stop the sweeping needle in the therapeutic window | Space / tap |
-| 🔨 Symptom Smack | Whack-a-mole on symptoms, spare the happy patients | Click / tap |
+| 🖐️ Symptom Smack | Whack-a-mole on symptoms, spare the happy patients | Click / tap |
 | 🧠 Peptide or Pretend? | Real compound or made-up nonsense quiz | ← → or tap |
 | 🃏 Vial Pairs | Memory match with product vials | Click / tap |
 | ⚗️ Merge Lab | Merge vials up to the ✨ Golden Formula | Click / tap |
