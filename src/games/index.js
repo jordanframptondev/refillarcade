@@ -1,5 +1,5 @@
 import AgeInvaders from './AgeInvaders.jsx'
-import PlaqueBreaker from './PlaqueBreaker.jsx'
+import PeptideBreakout from './PeptideBreakout.jsx'
 import VialStacker from './VialStacker.jsx'
 import ClinicCrossing from './ClinicCrossing.jsx'
 import DnaSnake from './DnaSnake.jsx'
@@ -16,7 +16,7 @@ import { GAME_LIST } from './meta.js'
 
 const COMPONENTS = {
   'age-invaders': AgeInvaders,
-  'plaque-breaker': PlaqueBreaker,
+  'peptide-breakout': PeptideBreakout,
   'vial-stacker': VialStacker,
   'clinic-crossing': ClinicCrossing,
   'dna': DnaSnake,

@@ -16,14 +16,17 @@ const ROW_STYLES = [
   { color: '#ffe94a', pts: 15 },
   { color: '#4dff5e', pts: 10 },
 ]
+// Mainstream medspa lineup — each effect matches the therapy's pitch
 const DROPS = [
-  { kind: 'wide', emoji: '🛡️', label: 'GHK-CU', note: 'WIDE PADDLE!' },
+  { kind: 'wide', emoji: '🌸', label: 'HRT', note: 'WIDE PADDLE!' },
   { kind: 'multi', emoji: '✨', label: 'GLOW', note: 'MULTI-BALL!' },
-  { kind: 'slow', emoji: '🧘', label: 'MAGNESIUM', note: 'SLOW-MO!' },
+  { kind: 'slow', emoji: '💉', label: 'GLP-1', note: 'SLOW-MO!' },
+  { kind: 'pierce', emoji: '💪', label: 'TRT', note: 'POWER BALL!' },
+  { kind: 'life', emoji: '🧪', label: 'NAD+', note: '+1 LIFE!' },
 ]
 
-export default function PlaqueBreaker({ onExit }) {
-  const game = GAME_META['plaque-breaker']
+export default function PeptideBreakout({ onExit }) {
+  const game = GAME_META['peptide-breakout']
   const [score, setScore] = useState(0)
   const [lives, setLives] = useState(3)
   const [level, setLevel] = useState(1)
@@ -57,7 +60,7 @@ export default function PlaqueBreaker({ onExit }) {
       bricks: [],
       drops: [],
       pops: [],
-      fx: { wide: 0, slow: 0 },
+      fx: { wide: 0, slow: 0, pierce: 0 },
       level: 1,
       lives: 3,
       score: 0,
@@ -154,12 +157,15 @@ export default function PlaqueBreaker({ onExit }) {
             const d = DROPS[Math.floor(Math.random() * DROPS.length)]
             w.drops.push({ id: w.nextId++, x: b.x, y: b.y, ...d })
           }
-          // Reflect off whichever face we crossed
-          const prevR = Math.floor((py - BRICK_TOP) / BRICK_H)
-          const prevC = Math.floor((px / 100) * COLS)
-          if (prevR !== r) b.vy = -b.vy
-          else if (prevC !== c) b.vx = -b.vx
-          else b.vy = -b.vy
+          // TRT power ball plows straight through; otherwise reflect
+          // off whichever face we crossed
+          if (w.fx.pierce <= 0) {
+            const prevR = Math.floor((py - BRICK_TOP) / BRICK_H)
+            const prevC = Math.floor((px / 100) * COLS)
+            if (prevR !== r) b.vy = -b.vy
+            else if (prevC !== c) b.vx = -b.vx
+            else b.vy = -b.vy
+          }
           sfx.whack()
         }
       }
@@ -191,6 +197,8 @@ export default function PlaqueBreaker({ onExit }) {
       if (Math.abs(d.x - w.paddleX) < pw / 2 + 2 && Math.abs(d.y - PADDLE_Y) < 3.5) {
         if (d.kind === 'wide') w.fx.wide = 10
         if (d.kind === 'slow') w.fx.slow = 8
+        if (d.kind === 'pierce') w.fx.pierce = 6
+        if (d.kind === 'life') w.lives = Math.min(5, w.lives + 1)
         if (d.kind === 'multi') {
           const live = w.balls.filter((b) => b.held <= 0)
           const src = live[0] || w.balls[0]
@@ -287,8 +295,10 @@ export default function PlaqueBreaker({ onExit }) {
                       width: 13,
                       height: 13,
                       borderRadius: '50%',
-                      background: 'radial-gradient(circle at 35% 30%, #fff, #22e5ff)',
-                      boxShadow: '0 0 12px #22e5ff',
+                      background: w.fx.pierce > 0
+                        ? 'radial-gradient(circle at 35% 30%, #fff, #ffe94a)'
+                        : 'radial-gradient(circle at 35% 30%, #fff, #22e5ff)',
+                      boxShadow: w.fx.pierce > 0 ? '0 0 16px #ffe94a' : '0 0 12px #22e5ff',
                     }}
                   />
                 ))}
@@ -319,7 +329,7 @@ export default function PlaqueBreaker({ onExit }) {
                   }}
                 />
                 <div style={{ position: 'absolute', bottom: 4, width: '100%', textAlign: 'center', color: '#6f5fb0', fontSize: 16 }}>
-                  drag / ← → paddle · smash the plaque · catch 🛡️✨🧘 power-ups
+                  drag / ← → paddle · smash the breakout · catch 🌸✨💉💪🧪 peptides
                 </div>
               </>
             )}

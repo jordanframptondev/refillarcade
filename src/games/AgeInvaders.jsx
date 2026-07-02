@@ -23,11 +23,11 @@ const POWERUPS = [
   { kind: 'nad', emoji: '🧪', label: 'NAD+', note: 'RAPID FIRE!', weight: 2 },
   { kind: 'glow', emoji: '✨', label: 'GLOW BLEND', note: 'TRIPLE BEAM!', weight: 2 },
   { kind: 'gluta', emoji: '🫧', label: 'GLUTATHIONE', note: 'SPOTS CLEARED!', weight: 2 },
-  { kind: 'argi', emoji: '🧊', label: 'ARGIRELINE', note: 'FROZEN!', weight: 2 },
-  { kind: 'surge', emoji: '⚡', label: 'CJC + IPA', note: 'POWER SURGE!', weight: 2 },
+  { kind: 'tox', emoji: '🧊', label: 'TOX SHOT', note: 'WRINKLES FROZEN!', weight: 2 },
+  { kind: 'trt', emoji: '💪', label: 'TRT', note: 'POWER SURGE!', weight: 2 },
   { kind: 'glp', emoji: '💉', label: 'GLP-1', note: 'CRAVINGS GONE!', weight: 1 },
   { kind: 'biotin', emoji: '💛', label: 'BIOTIN', note: '+75 SHINE!', weight: 2 },
-  { kind: 'bpc', emoji: '💗', label: 'BPC-157', note: '+1 LIFE!', weight: 1 },
+  { kind: 'hrt', emoji: '🌸', label: 'HRT', note: '+1 LIFE!', weight: 1 },
 ]
 // Accelerated-aging hazards — catching one helps the invaders
 const HAZARDS = [
@@ -105,9 +105,11 @@ export default function AgeInvaders({ onExit }) {
   const shoot = () => {
     const w = world.current
     if (!w || w.fireCd > 0) return
-    const maxShots = w.fx.double > 0 ? 4 : 2
+    const maxShots = w.fx.double > 0 ? 10 : 6
     if (w.bullets.length >= maxShots) return
-    w.fireCd = w.fx.rapid > 0 ? 0.14 : 0.42
+    // Fire as fast as the player can press — the tiny cooldown only
+    // debounces duplicate events from a single press
+    w.fireCd = 0.05
     if (w.fx.spread > 0) {
       w.bullets.push({ x: w.playerX, y: PLAYER_Y - 4, vx: -16 }, { x: w.playerX, y: PLAYER_Y - 4, vx: 0 }, { x: w.playerX, y: PLAYER_Y - 4, vx: 16 })
     } else {
@@ -120,10 +122,10 @@ export default function AgeInvaders({ onExit }) {
     if (p.kind === 'vitc') w.fx.double = 10
     if (p.kind === 'nad') w.fx.rapid = 8
     if (p.kind === 'glow') w.fx.spread = 8
-    if (p.kind === 'argi') w.fx.freeze = 4
-    if (p.kind === 'surge') w.fx.surge = 6
+    if (p.kind === 'tox') w.fx.freeze = 4
+    if (p.kind === 'trt') w.fx.surge = 6
     if (p.kind === 'biotin') w.score += 75
-    if (p.kind === 'bpc') w.lives = Math.min(5, w.lives + 1)
+    if (p.kind === 'hrt') w.lives = Math.min(5, w.lives + 1)
     if (p.kind === 'gluta') {
       // The master antioxidant — wipes every sun spot on the board
       w.invaders.forEach((inv) => {
@@ -149,6 +151,8 @@ export default function AgeInvaders({ onExit }) {
       if (e.key === 'ArrowRight' || e.key === 'd') keys.current.right = true
       if (e.code === 'Space') {
         e.preventDefault()
+        // Every distinct press fires; holding only auto-fires with NAD+ rapid
+        if (e.repeat && !(world.current?.fx.rapid > 0)) return
         shoot()
       }
     }

@@ -20,7 +20,7 @@ built app from `dist/` on port 5174.
 | Game | Mechanic | Controls |
 | --- | --- | --- |
 | 👾 Age Invaders | Space Invaders vs the signs of aging, with peptide power-ups | ← → + Space / drag + tap |
-| 🧱 Plaque Breaker | Breakout against the plaque wall, power-ups drop from bricks | Drag or ← → |
+| 🧱 Peptide Breakout | Breakout vs the plaque wall — HRT/GLOW/GLP-1/TRT/NAD+ drops | Drag or ← → |
 | 🏗️ Vial Stacker | One-button tower stacker — overhang gets sliced | Space / tap |
 | 🚶 Clinic Crossing | Frogger across UV, sugar, and paperwork lanes | Arrows / D-pad |
 | 🧬 Clean DNA | Snake — grow the strand on pills and syringes | Arrows / D-pad |
