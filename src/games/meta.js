@@ -1,0 +1,70 @@
+// Game metadata only — no component imports, so game files can import this
+// without creating a circular dependency with index.js.
+export const GAME_LIST = [
+  {
+    id: 'peptide-panic',
+    title: 'PEPTIDE PANIC',
+    emoji: '💉',
+    color: '#ff2fb9',
+    tagline: 'Catch the good vials, dodge the sketchy stuff!',
+    howTo: 'Move the tray with ← → arrows (or drag on mobile). Catch vials 💉🧪💊 for points, build combos — but catch a counterfeit ☠️ or the DEA barrel 🛢️ and lose a life. 3 lives!',
+  },
+  {
+    id: 'gains-run',
+    title: 'GAINS RUN',
+    emoji: '🏃',
+    color: '#22e5ff',
+    tagline: 'One-button flight down the clinic hallway!',
+    howTo: 'Tap SPACE / click to flap down the clinic hallway. Grab boosts 💪⚡ for bonus points and dodge the paperwork stacks. One crash and it\'s over!',
+  },
+  {
+    id: 'script-sorter',
+    title: 'SCRIPT SORTER',
+    emoji: '📋',
+    color: '#4dff5e',
+    tagline: 'Sort the scripts before the conveyor jams!',
+    howTo: 'A script slides in — press 1 (PEPTIDE), 2 (TRT), 3 (HRT), or 4 (REJECT), or tap the bins. Sort right for points; 3 mis-sorts and the pharmacy shuts down. It speeds up!',
+  },
+  {
+    id: 'perfect-dose',
+    title: 'PERFECT DOSE',
+    emoji: '🎯',
+    color: '#ffe94a',
+    tagline: 'Stop the needle in the therapeutic window!',
+    howTo: 'The needle sweeps back and forth — press SPACE / tap to stop it inside the green therapeutic window. Dead center = PERFECT. The window shrinks every round. Miss 3 times and you\'re done!',
+  },
+  {
+    id: 'symptom-smack',
+    title: 'SYMPTOM SMACK',
+    emoji: '🔨',
+    color: '#ff8a3d',
+    tagline: 'Whack the symptoms as they pop up!',
+    howTo: 'Symptoms pop out of the holes — smack them with a click/tap before they hide! Don\'t smack the happy patients 😊. 45 seconds on the clock!',
+  },
+  {
+    id: 'peptide-or-pretend',
+    title: 'PEPTIDE OR PRETEND?',
+    emoji: '🧠',
+    color: '#a45bff',
+    tagline: 'Real compound... or total nonsense?',
+    howTo: 'We show you a name — you call it: REAL peptide/compound or PRETEND made-up nonsense. Answer fast for bonus points. 3 strikes and the quiz master wins!',
+  },
+  {
+    id: 'vial-pairs',
+    title: 'VIAL PAIRS',
+    emoji: '🃏',
+    color: '#22e5ff',
+    tagline: 'Flip and match the product vials!',
+    howTo: 'Flip two cards at a time to find matching vials. Fewer flips and faster time = bigger score. Clear the whole fridge!',
+  },
+  {
+    id: 'merge-lab',
+    title: 'MERGE LAB',
+    emoji: '⚗️',
+    color: '#4dff5e',
+    tagline: 'Merge vials into legendary formulas!',
+    howTo: 'Tap FILL to make basic vials, then tap a vial and tap its matching twin to merge them into something stronger. Reach the mythic ✨ GOLDEN FORMULA before the 90-second shift ends!',
+  },
+]
+
+export const GAME_META = Object.fromEntries(GAME_LIST.map((g) => [g.id, g]))
