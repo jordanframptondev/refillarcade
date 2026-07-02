@@ -2,6 +2,38 @@
 // without creating a circular dependency with index.js.
 export const GAME_LIST = [
   {
+    id: 'age-invaders',
+    title: 'AGE INVADERS',
+    emoji: '⏳',
+    color: '#a45bff',
+    tagline: 'The signs of aging descend relentlessly — fight back!',
+    howTo: 'Fine lines 〰️, wrinkles ➿, sun spots 🟤, and sagging 🫠 march down in waves — ← → to move (or drag), SPACE / tap to fire your treatment. Catch falling peptides (🧪 NAD+, ✨ GLOW, 🫧 GLUTATHIONE for the sun spots...) but DODGE the agers ☀️🍩😰📱. Shoot ⏳ Father Time for +150. Every wave is a new decade!',
+  },
+  {
+    id: 'dig-dose',
+    title: 'DIG DOSE',
+    emoji: '⛏️',
+    color: '#ff8a3d',
+    tagline: 'Tunnel through tissue, zap the bad cells!',
+    howTo: 'You\'re a healing peptide 🧬. Arrows/WASD (or the pad) to tunnel through tissue, SPACE (or ⚡) to zap bad cells ☣️ down your tunnel. Clear them all to level up — don\'t let them touch you!',
+  },
+  {
+    id: 'dna',
+    title: 'DNA',
+    emoji: '🧬',
+    color: '#4dff5e',
+    tagline: 'Grow the strand, gobble the pills!',
+    howTo: 'Steer the DNA strand with arrows/WASD (or the pad). Eat pills 💊 to grow and speed up, grab the flashing 🧬 for +30 before it fades. Hit a wall or yourself and the strand unravels!',
+  },
+  {
+    id: 'glow-up',
+    title: 'GLOW UP',
+    emoji: '✨',
+    color: '#ffe94a',
+    tagline: 'Bounce up the wellness ladder to peak glow!',
+    howTo: 'Bounce ever upward! ← → to steer (or drag on mobile) — land on pill platforms, grab ✨💊 for bonus points, and hit 💆 spa springs for MEGA bounces. Orange platforms crack. Fall and it\'s over!',
+  },
+  {
     id: 'peptide-panic',
     title: 'PEPTIDE PANIC',
     emoji: '💉',
@@ -64,38 +96,6 @@ export const GAME_LIST = [
     color: '#4dff5e',
     tagline: 'Merge vials into legendary formulas!',
     howTo: 'Tap FILL to make basic vials, then tap a vial and tap its matching twin to merge them into something stronger. Reach the mythic ✨ GOLDEN FORMULA before the 90-second shift ends!',
-  },
-  {
-    id: 'germ-invaders',
-    title: 'GERM INVADERS',
-    emoji: '👾',
-    color: '#a45bff',
-    tagline: 'Blast the germ armada before it reaches the clinic!',
-    howTo: 'You\'re the last syringe standing! ← → to move (or drag), SPACE / tap to fire doses at the descending germ waves. They shoot back — 3 lives, and every wave gets meaner!',
-  },
-  {
-    id: 'dig-dose',
-    title: 'DIG DOSE',
-    emoji: '⛏️',
-    color: '#ff8a3d',
-    tagline: 'Tunnel through tissue, zap the bad cells!',
-    howTo: 'You\'re a healing peptide 🧬. Arrows/WASD (or the pad) to tunnel through tissue, SPACE (or ⚡) to zap bad cells ☣️ down your tunnel. Clear them all to level up — don\'t let them touch you!',
-  },
-  {
-    id: 'dna',
-    title: 'DNA',
-    emoji: '🧬',
-    color: '#4dff5e',
-    tagline: 'Grow the strand, gobble the pills!',
-    howTo: 'Steer the DNA strand with arrows/WASD (or the pad). Eat pills 💊 to grow and speed up, grab the flashing 🧬 for +30 before it fades. Hit a wall or yourself and the strand unravels!',
-  },
-  {
-    id: 'glow-up',
-    title: 'GLOW UP',
-    emoji: '✨',
-    color: '#ffe94a',
-    tagline: 'Bounce up the wellness ladder to peak glow!',
-    howTo: 'Bounce ever upward! ← → to steer (or drag on mobile) — land on pill platforms, grab ✨💊 for bonus points, and hit 💆 spa springs for MEGA bounces. Orange platforms crack. Fall and it\'s over!',
   },
 ]
 
