@@ -15,7 +15,7 @@ export default function GameShell({ game, score, children, onExit, onStart, extr
   const [finalScore, setFinalScore] = useState(0)
   const [wasRecord, setWasRecord] = useState(false)
   const [board, setBoard] = useState(null) // top-10 list, null while loading
-  const [boardError, setBoardError] = useState(false)
+  const [boardError, setBoardError] = useState(0) // consecutive failed fetches; 0 = ok
   const [showBoard, setShowBoard] = useState(false)
   const [name, setName] = useState(getSavedName())
   const [saveState, setSaveState] = useState('idle') // idle | saving | saved | skipped | error
@@ -25,14 +25,21 @@ export default function GameShell({ game, score, children, onExit, onStart, extr
     fetchScores(game.id)
       .then((s) => {
         setBoard(s)
-        setBoardError(false)
+        setBoardError(0)
       })
-      .catch(() => setBoardError(true))
+      .catch(() => setBoardError((n) => n + 1)) // count up so the retry effect re-fires
   }, [game.id])
 
   useEffect(() => {
     loadBoard()
   }, [loadBoard])
+
+  // Self-heal after a transient server outage (e.g. dev server restart)
+  useEffect(() => {
+    if (!boardError) return
+    const t = setTimeout(loadBoard, 5000)
+    return () => clearTimeout(t)
+  }, [boardError, loadBoard])
 
   const best = board?.[0]?.score ?? 0
 
@@ -163,7 +170,7 @@ export default function GameShell({ game, score, children, onExit, onStart, extr
             <div style={{ color: '#cfc3ff', fontSize: 20 }}>{game.title}</div>
             {boardError ? (
               <div className="overlay-text" style={{ color: '#ff3355' }}>
-                Score server offline — start it with <b>npm run dev</b>.
+                Score server offline — retrying… (it runs with <b>npm run dev</b>)
               </div>
             ) : board === null ? (
               <div className="overlay-text">Loading…</div>
