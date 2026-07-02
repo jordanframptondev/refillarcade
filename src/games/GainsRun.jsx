@@ -6,12 +6,16 @@ import { sfx } from '../lib/sounds.js'
 
 const PLAYER_X = 22 // fixed x position (%)
 const BOOSTS = [
-  { emoji: '💊', points: 10, text: '+10 PILLS' },
-  { emoji: '🥗', points: 10, text: '+10 SALAD' },
-  { emoji: '💉', points: 15, text: '+15 SYRINGE' },
-  { emoji: '🥤', points: 15, text: '+15 PROTEIN' },
-  { emoji: '🧴', points: 20, text: '+20 PILL BOTTLE' },
-  { emoji: '🧬', points: 25, text: '+25 PEPTIDE' },
+  { emoji: '💊', points: 10 },
+  { emoji: '🥗', points: 10 },
+  { emoji: '💉', points: 15 },
+  { emoji: '🧬', points: 25 },
+]
+
+// Random celebration shown when a pickup is collected
+const BRO_WORDS = [
+  'SWOLE!', 'GAINZ!', 'YOKED!', 'PUMPED!', 'SHREDDED!', 'JACKED!',
+  'BEAST MODE!', "LET'S GOOO!", 'ABSOLUTE UNIT!', 'HUGE!', 'ANABOLIC!', 'MAXED OUT!',
 ]
 
 export default function GainsRun({ onExit }) {
@@ -100,7 +104,8 @@ export default function GainsRun({ onExit }) {
     w.boosts = w.boosts.filter((b) => {
       if (Math.abs(b.x - PLAYER_X) < 5 && Math.abs(b.y - w.y) < 8) {
         w.score += b.points
-        w.pops.push({ id: w.nextId++, x: b.x, y: b.y, text: b.text, color: '#4dff5e', ttl: 0.8 })
+        const word = BRO_WORDS[Math.floor(Math.random() * BRO_WORDS.length)]
+        w.pops.push({ id: w.nextId++, x: b.x, y: b.y, text: `+${b.points} ${word}`, color: '#4dff5e', ttl: 0.9 })
         sfx.good()
         return false
       }
@@ -216,7 +221,7 @@ export default function GainsRun({ onExit }) {
                   </span>
                 ))}
                 <div style={{ position: 'absolute', bottom: 4, width: '100%', textAlign: 'center', color: '#6f5fb0', fontSize: 16 }}>
-                  SPACE / tap to flap · grab 💊🥗💉🥤🧴🧬 · dodge the walls
+                  SPACE / tap to flap · grab 💊🥗💉🧬 · dodge the walls
                 </div>
               </>
             )}

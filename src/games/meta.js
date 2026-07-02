@@ -15,7 +15,7 @@ export const GAME_LIST = [
     emoji: '🏃',
     color: '#22e5ff',
     tagline: 'One-button flight down the clinic hallway!',
-    howTo: 'Tap SPACE / click to flap down the clinic hallway. Grab pickups 💊🥗💉🥤🧴🧬 for bonus points and dodge the walls. One crash and it\'s over!',
+    howTo: 'Tap SPACE / click to flap down the clinic hallway. Grab pickups 💊🥗💉🧬 for bonus points and dodge the walls. One crash and it\'s over!',
   },
   {
     id: 'script-sorter',
