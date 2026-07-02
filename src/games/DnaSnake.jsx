@@ -4,6 +4,7 @@ import DPad from '../components/DPad.jsx'
 import { GAME_META } from './meta.js'
 import { useGameLoop } from '../lib/useGameLoop.js'
 import { sfx } from '../lib/sounds.js'
+import { isTypingTarget } from '../lib/keys.js'
 
 const COLS = 17
 const ROWS = 13
@@ -71,6 +72,7 @@ export default function DnaSnake({ onExit }) {
 
   useEffect(() => {
     const onKey = (e) => {
+      if (isTypingTarget(e)) return // don't hijack name-entry typing
       const map = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right', w: 'up', s: 'down', a: 'left', d: 'right' }
       if (map[e.key]) {
         e.preventDefault()

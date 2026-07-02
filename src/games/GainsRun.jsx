@@ -3,6 +3,7 @@ import GameShell from '../components/GameShell.jsx'
 import { GAME_META } from './meta.js'
 import { useGameLoop } from '../lib/useGameLoop.js'
 import { sfx } from '../lib/sounds.js'
+import { isTypingTarget } from '../lib/keys.js'
 
 const PLAYER_X = 22 // fixed x position (%)
 const BOOSTS = [
@@ -52,6 +53,7 @@ export default function GainsRun({ onExit }) {
 
   useEffect(() => {
     const onKey = (e) => {
+      if (isTypingTarget(e)) return // don't hijack name-entry typing
       if (e.code === 'Space' || e.key === 'ArrowUp') {
         e.preventDefault()
         flap()

@@ -3,6 +3,7 @@ import GameShell from '../components/GameShell.jsx'
 import { GAME_META } from './meta.js'
 import { useGameLoop } from '../lib/useGameLoop.js'
 import { sfx } from '../lib/sounds.js'
+import { isTypingTarget } from '../lib/keys.js'
 
 const GRAVITY = 165
 const JUMP = 80
@@ -65,6 +66,7 @@ export default function GlowUp({ onExit }) {
 
   useEffect(() => {
     const down = (e) => {
+      if (isTypingTarget(e)) return // don't hijack name-entry typing
       if (e.key === 'ArrowLeft' || e.key === 'a') keys.current.left = true
       if (e.key === 'ArrowRight' || e.key === 'd') keys.current.right = true
     }

@@ -3,6 +3,7 @@ import GameShell from '../components/GameShell.jsx'
 import { GAME_META } from './meta.js'
 import { useGameLoop } from '../lib/useGameLoop.js'
 import { sfx } from '../lib/sounds.js'
+import { isTypingTarget } from '../lib/keys.js'
 
 // Real peptides & compounds from the medspa / wellness / longevity world
 const REAL = [
@@ -164,6 +165,7 @@ export default function PeptideOrPretend({ onExit }) {
 
   useEffect(() => {
     const onKey = (e) => {
+      if (isTypingTarget(e)) return // don't hijack name-entry typing
       if (e.key === 'ArrowLeft') guess(true)
       if (e.key === 'ArrowRight') guess(false)
     }

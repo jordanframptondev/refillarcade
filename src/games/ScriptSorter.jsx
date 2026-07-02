@@ -3,6 +3,7 @@ import GameShell from '../components/GameShell.jsx'
 import { GAME_META } from './meta.js'
 import { useGameLoop } from '../lib/useGameLoop.js'
 import { sfx } from '../lib/sounds.js'
+import { isTypingTarget } from '../lib/keys.js'
 
 const BINS = [
   { key: '1', id: 'peptide', label: 'PEPTIDE', emoji: '🧬', color: '#4dff5e' },
@@ -122,6 +123,7 @@ export default function ScriptSorter({ onExit }) {
 
   useEffect(() => {
     const onKey = (e) => {
+      if (isTypingTarget(e)) return // don't hijack name-entry typing
       const bin = BINS.find((b) => b.key === e.key)
       if (bin) answer(bin.id)
     }

@@ -3,6 +3,7 @@ import GameShell from '../components/GameShell.jsx'
 import { GAME_META } from './meta.js'
 import { useGameLoop } from '../lib/useGameLoop.js'
 import { sfx } from '../lib/sounds.js'
+import { isTypingTarget } from '../lib/keys.js'
 
 const ROW_H = 4.4 // row height in board %
 const BASE_Y = 92 // screen % of the base row's center
@@ -83,6 +84,7 @@ export default function VialStacker({ onExit }) {
 
   useEffect(() => {
     const onKey = (e) => {
+      if (isTypingTarget(e)) return // don't hijack name-entry typing
       if (e.code === 'Space') {
         e.preventDefault()
         drop()
